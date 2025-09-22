@@ -146,6 +146,7 @@
       cursor: pointer;
       box-shadow: 0 5px 15px rgba(0,0,0,0.3);
       transition: transform 0.2s, box-shadow 0.3s;
+      outline: none;
     }
 
     .btn-cute:hover {
@@ -196,11 +197,10 @@
     <button class="btn-cute" onclick="toggleMusic()">🎶</button>
     <audio id="bg-music" loop>
       <source src="musik.mp3" type="audio/mpeg">
-      Browsermu tidak mendukung audio 😢
     </audio>
   </div>
 
-  <div class="signature">💌 Buatan Rizqie</div>
+  <div class="signature">💌 BY:Rizqie</div>
 
   <script>
     const music = document.getElementById("bg-music");
@@ -211,7 +211,9 @@
         music.pause();
         isPlaying = false;
       } else {
-        music.play();
+        music.play().catch(err => {
+          console.log("Autoplay dicegah browser:", err);
+        });
         isPlaying = true;
       }
     }
