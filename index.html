@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>I Love U</title>
   <style>
     body {
@@ -13,12 +12,13 @@
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fad0c4, #fbc2eb, #a18cd1);
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
       background-size: 400% 400%;
       animation: gradientBG 12s ease infinite;
       font-family: 'Segoe Script', cursive;
       text-align: center;
       color: white;
+      overflow: hidden;
     }
 
     @keyframes gradientBG {
@@ -30,13 +30,25 @@
     h1 {
       font-size: 4em;
       text-shadow: 0 0 15px rgba(255, 0, 100, 0.8), 0 0 30px rgba(255, 0, 150, 0.6);
-      animation: pulse 2s infinite;
+      background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet, red);
+      background-size: 1000% 1000%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: pulse 2s infinite, rainbowText 8s linear infinite;
+      position: relative;
+      z-index: 2;
     }
 
     @keyframes pulse {
       0% { transform: scale(1); }
       50% { transform: scale(1.1); }
       100% { transform: scale(1); }
+    }
+
+    @keyframes rainbowText {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     .romantic {
@@ -53,41 +65,61 @@
       to {opacity: 1; transform: translateY(0);}
     }
 
-    .hearts {
+    /* Hearts & Flowers jatuh */
+    .hearts, .flowers {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      z-index: -1;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
     }
 
-    .hearts span {
+    .hearts span, .flowers span {
       position: absolute;
       display: block;
-      width: 20px;
-      height: 20px;
-      background: rgba(255, 255, 255, 0.8);
-      clip-path: polygon(50% 0%, 61% 18%, 82% 18%, 
-                         91% 35%, 91% 55%, 50% 100%, 
-                         9% 55%, 9% 35%, 18% 18%, 39% 18%);
       animation: fall 10s linear infinite;
     }
 
-    .hearts span:nth-child(odd) {
+    .hearts span {
+      width: 20px; height: 20px;
       background: rgba(255, 0, 100, 0.7);
+      clip-path: polygon(50% 0%, 61% 18%, 82% 18%, 
+                         91% 35%, 91% 55%, 50% 100%, 
+                         9% 55%, 9% 35%, 18% 18%, 39% 18%);
+    }
+
+    .flowers span {
+      font-size: 24px;
+      animation: fall 12s linear infinite;
     }
 
     @keyframes fall {
-      0% {
-        transform: translateY(-100px) rotate(0deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(110vh) rotate(360deg);
-        opacity: 0;
-      }
+      0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Sparkle */
+    .sparkles {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      height: 150px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .sparkles span {
+      position: absolute;
+      font-size: 20px;
+      color: #fff8dc;
+      text-shadow: 0 0 10px gold, 0 0 20px pink, 0 0 30px violet;
+      animation: twinkle 2s infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0; transform: scale(0.5) rotate(0deg); }
+      50% { opacity: 1; transform: scale(1.2) rotate(180deg); }
     }
 
     .signature {
@@ -99,38 +131,90 @@
       text-shadow: 0 0 5px rgba(0,0,0,0.4);
     }
 
-    /* Tambahan agar responsif di HP */
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 2.5em;
-      }
-      .romantic {
-        font-size: 1.1em;
-        padding: 0 15px;
-      }
-      .signature {
-        font-size: 1em;
-      }
+    .music-control {
+      margin-top: 30px;
+    }
+
+    /* Tombol lucu */
+    .btn-cute {
+      background: linear-gradient(135deg, #ffb6c1, #ff69b4);
+      border: none;
+      color: white;
+      padding: 15px 20px;
+      border-radius: 50%;
+      font-size: 1.5em;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      transition: transform 0.2s, box-shadow 0.3s;
+    }
+
+    .btn-cute:hover {
+      transform: scale(1.2) rotate(10deg);
+      box-shadow: 0 8px 20px rgba(255,105,180,0.6);
+    }
+
+    .btn-cute:active {
+      transform: scale(1);
     }
   </style>
 </head>
 <body>
+  <!-- Hearts -->
   <div class="hearts">
     <span style="left:10%; animation-duration:8s;"></span>
     <span style="left:20%; animation-duration:12s;"></span>
-    <span style="left:30%; animation-duration:10s;"></span>
-    <span style="left:50%; animation-duration:14s;"></span>
-    <span style="left:70%; animation-duration:11s;"></span>
-    <span style="left:80%; animation-duration:9s;"></span>
-    <span style="left:90%; animation-duration:13s;"></span>
+    <span style="left:40%; animation-duration:9s;"></span>
+    <span style="left:60%; animation-duration:14s;"></span>
+    <span style="left:80%; animation-duration:11s;"></span>
+  </div>
+
+  <!-- Flowers -->
+  <div class="flowers">
+    <span style="left:15%; animation-duration:9s;">🌸</span>
+    <span style="left:35%; animation-duration:13s;">🌼</span>
+    <span style="left:55%; animation-duration:11s;">🌺</span>
+    <span style="left:75%; animation-duration:10s;">💐</span>
+  </div>
+
+  <!-- Sparkles -->
+  <div class="sparkles">
+    <span style="top:10%; left:20%; animation-delay:0s;">✦</span>
+    <span style="top:30%; left:60%; animation-delay:1s;">✧</span>
+    <span style="top:60%; left:40%; animation-delay:0.5s;">✦</span>
+    <span style="top:50%; left:80%; animation-delay:1.5s;">✧</span>
+    <span style="top:20%; left:50%; animation-delay:2s;">✦</span>
   </div>
 
   <h1>I Love U ❤</h1>
   <p class="romantic">
     Kamu adalah alasan senyumku setiap hari,  
-    dan adanya kamu dunia terasa sempurna ✨💕  
+    cahaya di hatiku, dan doa terbaikku.  
+    Bersamamu, dunia terasa sempurna ✨💕  
   </p>
 
-  <div class="signature">💌 by: Rizqie hecker tzy</div>
+  <div class="music-control">
+    <button class="btn-cute" onclick="toggleMusic()">🎶</button>
+    <audio id="bg-music" loop>
+      <source src="musik.mp3" type="audio/mpeg">
+      Browsermu tidak mendukung audio 😢
+    </audio>
+  </div>
+
+  <div class="signature">💌 Buatan Rizqie</div>
+
+  <script>
+    const music = document.getElementById("bg-music");
+    let isPlaying = false;
+
+    function toggleMusic() {
+      if (isPlaying) {
+        music.pause();
+        isPlaying = false;
+      } else {
+        music.play();
+        isPlaying = true;
+      }
+    }
+  </script>
 </body>
 </html>
