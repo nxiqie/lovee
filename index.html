@@ -19,8 +19,8 @@
       text-align: center;
       color: white;
       overflow: hidden;
+      position: relative;
     }
-
     @keyframes gradientBG {
       0% {background-position: 0% 50%;}
       50% {background-position: 100% 50%;}
@@ -36,15 +36,13 @@
       -webkit-text-fill-color: transparent;
       animation: pulse 2s infinite, rainbowText 8s linear infinite;
       position: relative;
-      z-index: 2;
+      z-index: 5;
     }
-
     @keyframes pulse {
       0% { transform: scale(1); }
       50% { transform: scale(1.1); }
       100% { transform: scale(1); }
     }
-
     @keyframes rainbowText {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
@@ -58,8 +56,9 @@
       line-height: 1.6;
       text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
       animation: fadeIn 3s ease-in-out;
+      z-index: 5;
+      position: relative;
     }
-
     @keyframes fadeIn {
       from {opacity: 0; transform: translateY(20px);}
       to {opacity: 1; transform: translateY(0);}
@@ -71,14 +70,13 @@
       top: 0; left: 0;
       width: 100%; height: 100%;
       pointer-events: none;
+      z-index: 0; /* di belakang */
     }
-
     .hearts span, .flowers span {
       position: absolute;
       display: block;
       animation: fall 10s linear infinite;
     }
-
     .hearts span {
       width: 20px; height: 20px;
       background: rgba(255, 0, 100, 0.7);
@@ -86,12 +84,10 @@
                          91% 35%, 91% 55%, 50% 100%, 
                          9% 55%, 9% 35%, 18% 18%, 39% 18%);
     }
-
     .flowers span {
       font-size: 24px;
       animation: fall 12s linear infinite;
     }
-
     @keyframes fall {
       0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
       100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
@@ -106,9 +102,8 @@
       width: 300px;
       height: 150px;
       pointer-events: none;
-      z-index: 1;
+      z-index: 0; /* di belakang */
     }
-
     .sparkles span {
       position: absolute;
       font-size: 20px;
@@ -116,23 +111,9 @@
       text-shadow: 0 0 10px gold, 0 0 20px pink, 0 0 30px violet;
       animation: twinkle 2s infinite;
     }
-
     @keyframes twinkle {
       0%, 100% { opacity: 0; transform: scale(0.5) rotate(0deg); }
       50% { opacity: 1; transform: scale(1.2) rotate(180deg); }
-    }
-
-    .signature {
-      position: absolute;
-      bottom: 20px;
-      font-size: 1.2em;
-      font-style: italic;
-      opacity: 0.8;
-      text-shadow: 0 0 5px rgba(0,0,0,0.4);
-    }
-
-    .music-control {
-      margin-top: 30px;
     }
 
     /* Tombol lucu */
@@ -147,15 +128,51 @@
       box-shadow: 0 5px 15px rgba(0,0,0,0.3);
       transition: transform 0.2s, box-shadow 0.3s;
       outline: none;
+      position: relative;
+      overflow: hidden;
+      z-index: 5;
     }
-
     .btn-cute:hover {
       transform: scale(1.2) rotate(10deg);
       box-shadow: 0 8px 20px rgba(255,105,180,0.6);
     }
-
     .btn-cute:active {
-      transform: scale(1);
+      transform: scale(0.95);
+    }
+    .btn-cute.shake {
+      animation: shake 0.4s;
+    }
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px) rotate(-5deg); }
+      50% { transform: translateX(5px) rotate(5deg); }
+      75% { transform: translateX(-5px) rotate(-5deg); }
+      100% { transform: translateX(0); }
+    }
+
+    /* Animasi not musik */
+    .note {
+      position: absolute;
+      font-size: 1.5em;
+      color: #fff;
+      animation: floatUp 2.5s linear forwards;
+      text-shadow: 0 0 10px pink, 0 0 15px violet;
+      pointer-events: none;
+      z-index: 4; /* di bawah teks tapi tetap kelihatan */
+    }
+    @keyframes floatUp {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-120px) scale(1.5); }
+    }
+
+    .signature {
+      position: absolute;
+      bottom: 20px;
+      font-size: 1.2em;
+      font-style: italic;
+      opacity: 0.8;
+      text-shadow: 0 0 5px rgba(0,0,0,0.4);
+      z-index: 5;
     }
   </style>
 </head>
@@ -188,24 +205,30 @@
 
   <h1>I Love U ❤</h1>
   <p class="romantic">
-    Kamu adalah alasan senyumku setiap hari,dan  
-    bersamamu dunia terasa sempurna ✨💕  
+    Kamu adalah alasan senyumku setiap hari,<br>
+    dan bersamamu dunia terasa sempurna ✨💕
   </p>
 
   <div class="music-control">
-    <button class="btn-cute" onclick="toggleMusic()">🎶</button>
+    <button class="btn-cute" onclick="toggleMusic(this)">🎶</button>
     <audio id="bg-music" loop>
       <source src="musik.mp3" type="audio/mpeg">
     </audio>
   </div>
 
-  <div class="signature">💌 BY:Rizqie</div>
+  <div class="signature">💌 BY: Rizqie</div>
 
   <script>
     const music = document.getElementById("bg-music");
     let isPlaying = false;
 
-    function toggleMusic() {
+    function toggleMusic(btn) {
+      btn.classList.add("shake");
+
+      setTimeout(() => {
+        btn.classList.remove("shake");
+      }, 500);
+
       if (isPlaying) {
         music.pause();
         isPlaying = false;
@@ -214,9 +237,28 @@
           console.log("Autoplay dicegah browser:", err);
         });
         isPlaying = true;
+        spawnNotes(btn);
+      }
+    }
+
+    function spawnNotes(btn) {
+      if (!isPlaying) return;
+      const note = document.createElement("span");
+      note.classList.add("note");
+      note.innerText = Math.random() > 0.5 ? "🎵" : "🎶";
+      const rect = btn.getBoundingClientRect();
+      note.style.left = (rect.left + rect.width/2) + "px";
+      note.style.top = (rect.top - 10) + "px";
+      document.body.appendChild(note);
+
+      setTimeout(() => {
+        note.remove();
+      }, 2500);
+
+      if (isPlaying) {
+        setTimeout(() => spawnNotes(btn), 600);
       }
     }
   </script>
 </body>
 </html>
-
