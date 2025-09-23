@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- penting untuk HP -->
   <title>I Love U</title>
   <style>
     body {
@@ -37,6 +38,7 @@
       animation: pulse 2s infinite, rainbowText 8s linear infinite;
       position: relative;
       z-index: 5;
+      margin: 10px;
     }
     @keyframes pulse {
       0% { transform: scale(1); }
@@ -52,7 +54,7 @@
     .romantic {
       font-size: 1.5em;
       margin-top: 20px;
-      max-width: 600px;
+      max-width: 90%;
       line-height: 1.6;
       text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
       animation: fadeIn 3s ease-in-out;
@@ -131,6 +133,7 @@
       position: relative;
       overflow: hidden;
       z-index: 5;
+      margin-top: 15px;
     }
     .btn-cute:hover {
       transform: scale(1.2) rotate(10deg);
@@ -158,7 +161,7 @@
       animation: floatUp 2.5s linear forwards;
       text-shadow: 0 0 10px pink, 0 0 15px violet;
       pointer-events: none;
-      z-index: 4; /* di bawah teks tapi tetap kelihatan */
+      z-index: 4;
     }
     @keyframes floatUp {
       0% { opacity: 1; transform: translateY(0) scale(1); }
@@ -173,6 +176,21 @@
       opacity: 0.8;
       text-shadow: 0 0 5px rgba(0,0,0,0.4);
       z-index: 5;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      h1 { font-size: 2.5em; }
+      .romantic { font-size: 1.1em; }
+      .btn-cute { font-size: 1.2em; padding: 12px 16px; }
+      .signature { font-size: 1em; }
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 2em; }
+      .romantic { font-size: 1em; line-height: 1.4; }
+      .btn-cute { font-size: 1em; padding: 10px 14px; }
+      .signature { font-size: 0.9em; }
     }
   </style>
 </head>
